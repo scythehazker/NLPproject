@@ -1,0 +1,117 @@
+
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage[english,slovak]{babel}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{emoji}
+\usepackage{hyperref}
+
+\usepackage[
+  a4paper,
+  margin=2.5cm
+]{geometry}
+
+\usepackage{amsmath,amssymb}
+
+\title{Report skupiny
+  \emoji{folded-hands}
+  \emoji{folded-hands}
+  \emoji{folded-hands}
+}
+\author{Vladislav Voenkov, Petra Nagyová}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Úloha A}
+
+Najprv potrebujeme diskretizovat ucelovu funkciu spotreby paliva
+\[
+J(f) = \gamma \int_{0}^{T^p} \left\|f(t)\right\|_{2} dt =
+\gamma \sum_{k=1}^K \left[ \int_{(k-1)h}^{kh} \left\|f(t)\right\|_{2} dt \right].
+\]
+Kedze predpokladame, ze pocas jednej periody \(k\) tahova sila konstantna
+a rovna sa \(f_k\), funkciu vieme prepisat ako
+\[
+J(f) = \gamma \sum_{k=1}^K \left[ \int_{(k-1)h}^{kh} \left\|f_k\right\|_{2} dt \right] =
+\gamma \sum_{k=1}^K h \left\|f_k\right\|_{2} =
+\gamma h \sum_{k=1}^K \left\|f_k\right\|_{2}.
+\]
+Ak chceme najst len optimalne hodnoty \(f_k\), vieme vynechat kladne konstanty
+\(\gamma\) a \(h\). Potom ulohu vieme zapisat nasledovne:
+\[
+\begin{alignedat}{3}
+  \min_{p,v,f} \quad
+  & \sum_{k=1}^{K} \|f_k\|_2 \\
+  & p_1 - p^{init} &\quad&= 0 \\
+  & v_1 - v^{init} &\quad&= 0 \\
+  & p_{K+1}       &\quad&= 0 \\
+  & v_{K+1}       &\quad&= 0 \\
+  & v_k - v_{k+1} + \frac{h}{m} f_k - h g e_3 &\quad&= 0
+  &\quad&\forall k \in \{1,\dots,K\} \\
+  & p_k - p_{k+1} + \frac{h}{2} v_k + \frac{h}{2} v_{k+1} &\quad&= 0
+  &\quad&\forall k \in \{1,\dots,K\}\\
+  & \|f_k\|_2 - F^{\max}
+  &\quad&\le 0
+  &\quad&\forall k \in \{1,\dots,K\} \\
+  & \alpha \left\|
+    \begin{pmatrix}
+      (p_k)_1 \\
+      (p_k)_2
+    \end{pmatrix}
+    \right\|_2 - (p_k)_3
+    &\quad&\le 0
+    &\quad&\forall k \in \{1,\dots,K+1\}.
+\end{alignedat}
+\]
+
+\begin{samepage}
+  Ukazme, ze tato uloha patri do uloh konvexneho programovania.
+  Ucelova funkcia je konvexna, pretoze je suctom euklidovskych noriem, ktore su
+  konvexnymi funkciami. Obmedzenia s rovnostiami su afinne v rozhodovacich
+  premennych. Funkcia
+  \[
+  \|f_k\|_2 - F^{\max}
+  \]
+  je konvexna, pretoze je posunom o konstantu konvexnej funkcie. Funkcia
+  \[
+  \alpha \left\|
+  \begin{pmatrix}
+    (p_k)_1 \\
+    (p_k)_2
+  \end{pmatrix}
+  \right\|_2 - (p_k)_3
+  \]
+  je konvexna, pretoze je suctom konvexnej a linearnej funkcii.
+\end{samepage}
+
+Takze ucelova funkcia je konvexna, obmedzenia s rovnostiami su afinne,
+obmedzenia s nerovnostiami su konvexne, preto dana uloha patri do uloh
+konvexneho programovania. Konkretne, ide o ulohu konickeho
+programovania druheho radu (\emph{second-order cone program, SOCP})
+\footnote{\url{https://en.wikipedia.org/wiki/Second-order_cone_programming}}.
+
+Zavedenim pomocnych premennych \(t_k\) mozeme prepisat ucelovu funkciu do
+linearneho tvaru
+\[
+\min_{p,v,f,t} \quad \sum_{k=1}^{K} t_k
+\]
+s dodatocnymi obmedzeniami
+\[
+\|f_k\|_2 - t_k \le 0 \quad \forall k \in \{1, \dots, K\}.
+\]
+Potom vysledna uloha ma linearnu ucelovu funkciu, obmedzenia s rovnostiami
+su afinne a obmedzenia s nerovnostiami maju tvar kuzelov druheho radu, t.j.
+\[
+\left\| A_k x + b_k \right\|_2 \le c_k^\intercal x + d_k,
+\]
+cize ekvivalentna uloha patri do triedy SOCP.
+
+\end{document}
