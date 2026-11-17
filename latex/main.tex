@@ -10,6 +10,7 @@
 \usepackage{placeins}
 \usepackage{emoji}
 \usepackage{hyperref}
+\usepackage{enumitem}
 
 \usepackage[
   a4paper,
@@ -30,22 +31,23 @@
 
 \maketitle
 
+
 \section*{Úloha A}
 
-Najprv potrebujeme diskretizovat ucelovu funkciu spotreby paliva
+Najprv potrebujeme diskretizovať účelovú funkciu spotreby paliva
 \[
 J(f) = \gamma \int_{0}^{T^p} \left\|f(t)\right\|_{2} dt =
 \gamma \sum_{k=1}^K \left[ \int_{(k-1)h}^{kh} \left\|f(t)\right\|_{2} dt \right].
 \]
-Kedze predpokladame, ze pocas jednej periody \(k\) tahova sila konstantna
-a rovna sa \(f_k\), funkciu vieme prepisat ako
+Keďže predpokladáme, že počas jednej periódy \(k\) je ťahová sila konštantná
+a rovná sa \(f_k\), funkciu vieme prepísať ako
 \[
 J(f) = \gamma \sum_{k=1}^K \left[ \int_{(k-1)h}^{kh} \left\|f_k\right\|_{2} dt \right] =
 \gamma \sum_{k=1}^K h \left\|f_k\right\|_{2} =
 \gamma h \sum_{k=1}^K \left\|f_k\right\|_{2}.
 \]
-Ak chceme najst len optimalne hodnoty \(f_k\), vieme vynechat kladne konstanty
-\(\gamma\) a \(h\). Potom ulohu vieme zapisat nasledovne:
+Ak chceme nájsť len optimálne hodnoty \(f_k\), vieme vynechať kladné konštanty
+\(\gamma\) a \(h\). Potom úlohu vieme zapísať nasledovne:
 \[
 \begin{alignedat}{3}
   \min_{p,v,f} \quad
@@ -58,9 +60,7 @@ Ak chceme najst len optimalne hodnoty \(f_k\), vieme vynechat kladne konstanty
   &\quad&\forall k \in \{1,\dots,K\} \\
   & p_k - p_{k+1} + \frac{h}{2} v_k + \frac{h}{2} v_{k+1} &\quad&= 0
   &\quad&\forall k \in \{1,\dots,K\}\\
-  & \|f_k\|_2 - F^{\max}
-  &\quad&\le 0
-  &\quad&\forall k \in \{1,\dots,K\} \\
+  & \|f_k\|_2 - F^{\max} &\quad&\le 0 &\quad&\forall k \in \{1,\dots,K\} \\
   & \alpha \left\|
     \begin{pmatrix}
       (p_k)_1 \\
@@ -69,18 +69,18 @@ Ak chceme najst len optimalne hodnoty \(f_k\), vieme vynechat kladne konstanty
     \right\|_2 - (p_k)_3
     &\quad&\le 0
     &\quad&\forall k \in \{1,\dots,K+1\}.
-\end{alignedat}
+\end{alignedat} \quad (U)
 \]
 
 \begin{samepage}
-  Ukazme, ze tato uloha patri do uloh konvexneho programovania.
-  Ucelova funkcia je konvexna, pretoze je suctom euklidovskych noriem, ktore su
-  konvexnymi funkciami. Obmedzenia s rovnostiami su afinne v rozhodovacich
-  premennych. Funkcia
+  Ukážme, že táto úloha patrí medzi úlohy konvexného programovania.
+  Účelová funkcia je konvexná, pretože je súčtom euklidovských noriem, ktoré sú
+  konvexnými funkciami. Obmedzenia s rovnosťami sú afinné v rozhodovacích
+  premenných. Funkcia
   \[
   \|f_k\|_2 - F^{\max}
   \]
-  je konvexna, pretoze je posunom o konstantu konvexnej funkcie. Funkcia
+  je konvexná, pretože vznikne posunutím konvexnej funkcie o konštantu. Funkcia
   \[
   \alpha \left\|
   \begin{pmatrix}
@@ -89,34 +89,162 @@ Ak chceme najst len optimalne hodnoty \(f_k\), vieme vynechat kladne konstanty
   \end{pmatrix}
   \right\|_2 - (p_k)_3
   \]
-  je konvexna, pretoze je suctom konvexnej a linearnej funkcii.
+  je konvexná, pretože je súčtom konvexnej a lineárnej funkcie.
 \end{samepage}
 
-Takze ucelova funkcia je konvexna, obmedzenia s rovnostiami su afinne,
-obmedzenia s nerovnostiami su konvexne, preto dana uloha patri do uloh
-konvexneho programovania. Konkretne, ide o ulohu konickeho
-programovania druheho radu (\emph{second-order cone program, SOCP})
+Takže účelová funkcia je konvexná, obmedzenia s rovnosťami sú afinné,
+obmedzenia s nerovnosťami sú konvexné, preto daná úloha patrí medzi úlohy
+konvexného programovania. Konkrétne ide o úlohu kužeľového
+programovania druhého rádu (\emph{second-order cone program, SOCP})
 \footnote{\url{https://en.wikipedia.org/wiki/Second-order_cone_programming}}.
 
-Zavedenim pomocnych premennych \(t_k\) mozeme prepisat ucelovu funkciu do
-linearneho tvaru
+Zavedením pomocných premenných \(t_k\) môžeme prepísať účelovú funkciu do
+lineárneho tvaru
 \[
 \min_{p,v,f,t} \quad \sum_{k=1}^{K} t_k
 \]
-s dodatocnymi obmedzeniami
+s dodatočnými obmedzeniami
 \[
 \|f_k\|_2 - t_k \le 0 \quad \forall k \in \{1, \dots, K\}.
 \]
-Potom vysledna uloha ma linearnu ucelovu funkciu, obmedzenia s rovnostiami
-su afinne a obmedzenia s nerovnostiami maju tvar kuzelov druheho radu, t.j.
+Potom výsledná úloha má lineárnu účelovú funkciu, obmedzenia s rovnosťami
+sú afinné a obmedzenia s nerovnosťami majú tvar nerovností druhého rádu, t. j.
 \[
 \left\| A_k x + b_k \right\|_2 \le c_k^\intercal x + d_k,
 \]
-cize ekvivalentna uloha patri do triedy SOCP.
+čiže ekvivalentná úloha patrí do triedy SOCP.
 
 
 \section*{Úloha B}
 
-\dots
+Predpokladajme, že vieme nájsť prípustný pristávací manéver \((p, v, f)\)
+pre \(K^*\) periód, teda pristátie trvá \({T^{p}}^* = K^* h\). Preskúmajme, či
+vieme nájsť prípustný manéver pre \(K^* + 1\) periód.
+
+Nech kozmická loď pristane za \(K^*\) periód a bude stáť ešte čas \(h\).
+Zadefinujme
+\[
+p_{K^* + 2} = p_{K^* + 1} = 0, \qquad
+v_{K^* + 2} = v_{K^* + 1} = 0,
+\]
+potom triviálne platia obmedzenia
+\[
+\begin{aligned}
+  p_{K^* + 1} - p_{K^* + 2} + \frac{h}{2} v_{K^* + 1} + \frac{h}{2} v_{K^* + 2} &= 0\\
+  \alpha \left\|
+  \begin{pmatrix}
+    (p_{K^* + 2})_1 \\
+    (p_{K^* + 2})_2
+  \end{pmatrix}
+  \right\|_2 - (p_{K^* + 2})_3 &\le 0.
+\end{aligned}
+\]
+Následne zadefinujme \(f_{K^* + 1}\) tak, aby platilo
+\[
+v_{K^* + 1} - v_{K^* + 2} + \frac{h}{m} f_{K^* + 1} - h g e_3 = 0.
+\]
+Keďže \(v_{K^* + 2} = v_{K^* + 1} = 0\), aritmetickými úpravami dostaneme
+\[
+f_{K^* + 1} = \frac{m}{h} v_{K^* + 2} - \frac{m}{h} v_{K^* + 1} + m g e_3 = m g e_3.
+\]
+
+Aby aj takýto rozšírený pristávací manéver bol prípustný,
+potrebujeme overiť, či platí
+\[
+\|f_{K^* + 1}\|_2 - F^{\max} \le 0.
+\]
+Keďže \(\|f_{K^* + 1}\|_2 = \|m g e_3\| = m g \|e_3\| = m g\), dostávame, že rozšírený
+pristávací manéver je prípustný vtedy, keď
+\[
+m g \le F^{\max}.
+\]
+Toto je logická podmienka: ak je gravitačná sila planéty vyššia ako maximálna ťahová
+sila motora, tak kozmická loď nemôže stáť na jej povrchu. Otázne však je,
+či vtedy loď vôbec dokáže úspešne pristáť.
+
+Dokážme sporom, že pri \(m g > F^{\max}\) neexistuje žiadny prípustný pristávací
+manéver. Predpokladajme, že \(m g > F^{\max}\) a zároveň existuje prípustný manéver
+pre nejaké \(K \ge 1\). Z toho vyplývajú nerovnosti
+\[
+(f_k)_3 \le \| f_k \|_2 \le F^{\max} < m g \quad \forall k \in \{1,\dots,K\}.
+\]
+Potom z obmedzenia
+\[
+v_k - v_{k+1} + \frac{h}{m} f_k - h g e_3 = 0 \quad \forall k \in \{1,\dots,K\}
+\]
+dostávame
+\[
+(v_{k+1})_3 = (v_{k})_3 + \frac{h}{m} (f_k)_3 - h g <
+(v_{k})_3 + \frac{h}{m} m g - h g = (v_{k})_3 \quad \forall k \in \{1,\dots,K\},
+\]
+čiže \((v_{k})_3 > (v_{k+1})_3\) a zvislá rýchlosť lode postupne klesá. Ale
+z podmienky \(v_{K+1} = 0\) dostávame, že
+\[
+(v_{k})_3 > 0 \quad \forall k \in \{1,\dots,K\},
+\]
+čiže zvislá poloha lode až do pristátia rástla, čo vzhľadom na podmienku \(p_{K+1} = 0\)
+znamená, že
+\[
+(p_{k})_3 < 0 \quad \forall k \in \{1,\dots,K\},
+\]
+a pre žiadne \(k \neq K+1\) neplatí
+\[
+(p_k)_3 \ge \alpha \left\|
+\begin{pmatrix}
+  (p_k)_1 \\
+  (p_k)_2
+\end{pmatrix}
+\right\|_2 .
+\]
+Toto je spor s obmedzením, že loď sa musí nachádzať v predpísanej kužeľovej oblasti.
+Takže ak platí \(m g > F^{\max}\), neexistuje žiadny prípustný manéver pre
+akékoľvek \(K \ge 1\).
+
+Takže pre ľubovoľný prípustný manéver dĺžky \(K\) periód vieme nájsť prípustný
+manéver dĺžky \(K+1\) periód nasledujúcim rozšírením:
+\[
+(p_{K + 2},\, v_{K + 2},\, f_{K + 1}) = (0,\, 0,\, m g e_3).
+\]
+To znamená, že ak počet periód \(K_{\min}\) existuje, tak pre ľubovoľné
+\(K < K_{\min}\) neexistuje žiadny prípustný pristávací
+manéver a pre ľubovoľné \(K \ge K_{\min}\) prípustný manéver existuje vždy.
+Z toho vyplýva, že indikátorová funkcia existencie prípustného manévru je monotónne
+neklesajúca a na hľadanie \(K_{\min}\) vieme použiť metódu podobnú bisekcii.
+
+Na overenie prípustnosti pre pevné $K$ môžeme riešiť konvexnú optimalizačnú úlohu
+\[
+\begin{aligned}
+\min_{p,v,f} \quad & 0 \\
+\end{aligned}
+\]
+so všetkými obmedzeniami úlohy \((U)\). Keďže účelová funkcia je konštantná
+a množina prípustných riešení je konvexná, ide o konvexnú optimalizačnú úlohu.
+
+Potom postup hľadania minimálneho času pristátia \(T_{\min}^p = K_{\min} h\) môže byť
+nasledujúci.
+V prvej fáze hľadáme prípustnú hornú hranicu $K_R$ exponenciálnym vyhľadávaním:
+\begin{enumerate}[label=\arabic*.]
+  \item Zvolíme maximálny skúmaný počet periód $K_{\max} \ge 1$ a položíme $K_R := 1$.
+  \item Overíme prípustnosť úlohy pre dané $K_R$.
+  \item Ak je úloha prípustná, prejdeme na druhú fázu.
+  \item Ak $K_R = K_{\max}$, ukončíme algoritmus. V rozsahu $1 \le K \le K_{\max}$
+  neexistuje prípustné riešenie.
+  \item Inak nastavíme \(K_R := \min(2K_R, K_{\max})\) a vrátime sa na krok 2.
+\end{enumerate}
+V druhej fáze hľadáme \(K_{\min}\) binárnym vyhľadávaním:
+\begin{enumerate}[label=\arabic*.]
+  \item Položíme $K_L := 0$.
+  \item Pokiaľ $K_R - K_L > 1$, vykonáme:
+  \begin{enumerate}[label=\arabic*.]
+    \item Položíme $K := \lfloor (K_L + K_R)/2 \rfloor$.
+    \item Pomocou solvera overíme prípustnosť optimalizačnej úlohy pre $K$ periód.
+    \item Ak je úloha prípustná, nastavíme $K_R := K$.
+    \item Inak nastavíme $K_L := K$.
+  \end{enumerate}
+  \item Keď $K_R - K_L = 1$, dostávame $K_{\min} = K_R$ a $T_{\min}^p = K_{\min}h$.
+\end{enumerate}
+
+
+
 
 \end{document}
