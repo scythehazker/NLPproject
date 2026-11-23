@@ -11,6 +11,7 @@
 \usepackage{emoji}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{amssymb}
 
 \usepackage[
   a4paper,
@@ -115,136 +116,227 @@ sú afinné a obmedzenia s nerovnosťami majú tvar nerovností druhého rádu, 
 čiže ekvivalentná úloha patrí do triedy SOCP.
 
 
+
 \section*{Úloha B}
 
-Predpokladajme, že vieme nájsť prípustný pristávací manéver \((p, v, f)\)
-pre \(K^*\) periód, teda pristátie trvá \({T^{p}}^* = K^* h\). Preskúmajme, či
-vieme nájsť prípustný manéver pre \(K^* + 1\) periód.
+Na rozdiel od úlohy A, kde sme pri pevnom počte periód $K$
+minimalizovali spotrebu paliva, teraz hľadáme najmenší
+počet periód $K_{\min}$, pre ktorý existuje prípustný
+pristávací manéver.
+Na tento účel využijeme obmedzenia úlohy $(U)$ a ukážeme,
+že prípustnosť je vzhľadom na počet periód monotónna.
 
-Nech kozmická loď pristane za \(K^*\) periód a bude stáť ešte čas \(h\).
-Zadefinujme
-\[
-p_{K^* + 2} = p_{K^* + 1} = 0, \qquad
-v_{K^* + 2} = v_{K^* + 1} = 0,
-\]
-potom triviálne platia obmedzenia
-\[
-\begin{aligned}
-  p_{K^* + 1} - p_{K^* + 2} + \frac{h}{2} v_{K^* + 1} + \frac{h}{2} v_{K^* + 2} &= 0\\
-  \alpha \left\|
-  \begin{pmatrix}
-    (p_{K^* + 2})_1 \\
-    (p_{K^* + 2})_2
-  \end{pmatrix}
-  \right\|_2 - (p_{K^* + 2})_3 &\le 0.
-\end{aligned}
-\]
-Následne zadefinujme \(f_{K^* + 1}\) tak, aby platilo
-\[
-v_{K^* + 1} - v_{K^* + 2} + \frac{h}{m} f_{K^* + 1} - h g e_3 = 0.
-\]
-Keďže \(v_{K^* + 2} = v_{K^* + 1} = 0\), aritmetickými úpravami dostaneme
-\[
-f_{K^* + 1} = \frac{m}{h} v_{K^* + 2} - \frac{m}{h} v_{K^* + 1} + m g e_3 = m g e_3.
-\]
+\subsection*{Nutná podmienka prípustnosti}
 
-Aby aj takýto rozšírený pristávací manéver bol prípustný,
-potrebujeme overiť, či platí
-\[
-\|f_{K^* + 1}\|_2 - F^{\max} \le 0.
-\]
-Keďže \(\|f_{K^* + 1}\|_2 = \|m g e_3\| = m g \|e_3\| = m g\), dostávame, že rozšírený
-pristávací manéver je prípustný vtedy, keď
-\[
-m g \le F^{\max}.
-\]
-Toto je logická podmienka: ak je gravitačná sila planéty vyššia ako maximálna ťahová
-sila motora, tak kozmická loď nemôže stáť na jej povrchu. Otázne však je,
-či vtedy loď vôbec dokáže úspešne pristáť.
+Najprv ukážeme, že existencia prípustného pristávacieho
+manévra vyžaduje $mg \le F^{\max}$.
 
-Dokážme sporom, že pri \(m g > F^{\max}\) neexistuje žiadny prípustný pristávací
-manéver. Predpokladajme, že \(m g > F^{\max}\) a zároveň existuje prípustný manéver
-pre nejaké \(K \ge 1\). Z toho vyplývajú nerovnosti
+\textbf{Tvrdenie:}
+Ak $mg > F^{\max}$, neexistuje žiadny prípustný
+pristávací manéver pre ľubovoľné $K \ge 1$.
+
+\textit{Dôkaz.}
+Predpokladajme sporom, že $mg > F^{\max}$ a zároveň
+existuje prípustný manéver pre nejaké $K \ge 1$.
+Z obmedzenia ťahovej sily a vlastností noriem dostávame
 \[
-(f_k)_3 \le \| f_k \|_2 \le F^{\max} < m g \quad \forall k \in \{1,\dots,K\}.
+(f_k)_3 \le \|f_k\|_2 \le F^{\max} < mg,
+\qquad \forall k \in \{1,\dots,K\}.
 \]
-Potom z obmedzenia
+Z dynamickej rovnice pre rýchlosť potom vyplýva
 \[
-v_k - v_{k+1} + \frac{h}{m} f_k - h g e_3 = 0 \quad \forall k \in \{1,\dots,K\}
+(v_{k+1})_3
+= (v_k)_3 + \frac{h}{m}(f_k)_3 - hg
+< (v_k)_3.
 \]
+Zvislá rýchlosť teda striktne klesá.
+Keďže $(v_k)_3 > 0$ pre akekolvek $k \in \{1,\dots,K\}$
+a $(v_{K+1})_3 = 0$, z dynamickej rovnice pre polohu
 dostávame
 \[
-(v_{k+1})_3 = (v_{k})_3 + \frac{h}{m} (f_k)_3 - h g <
-(v_{k})_3 + \frac{h}{m} m g - h g = (v_{k})_3 \quad \forall k \in \{1,\dots,K\},
+(p_{k+1})_3 - (p_k)_3
+= \frac{h}{2}\big((v_k)_3 + (v_{k+1})_3\big) > 0
 \]
-čiže \((v_{k})_3 > (v_{k+1})_3\) a zvislá rýchlosť lode postupne klesá. Ale
-z podmienky \(v_{K+1} = 0\) dostávame, že
+pre všetky $k \in \{1,\dots,K\}$.
+
+To znamená, že zvislá poloha lode sa počas každej
+periódy striktne zväčšuje, teda
 \[
-(v_{k})_3 > 0 \quad \forall k \in \{1,\dots,K\},
+(p_1)_3 < (p_2)_3 < \dots < (p_{K+1})_3.
 \]
-čiže zvislá poloha lode až do pristátia rástla, čo vzhľadom na podmienku \(p_{K+1} = 0\)
-znamená, že
+
+Z koncovej podmienky však vieme, že loď musí
+pristáť v počiatku súradnicového systému,
+čiže $(p_{K+1})_3 = 0$. Z predchádzajúcej
+nerovnosti preto vyplýva
 \[
-(p_{k})_3 < 0 \quad \forall k \in \{1,\dots,K\},
+(p_1)_3 < (p_{K+1})_3 = 0,
 \]
-a pre žiadne \(k \neq K+1\) neplatí
+teda počiatočná výška lode musí byť záporná.
+
+To však nie je možné, pretože podľa kužeľového
+obmedzenia musí platiť
 \[
-(p_k)_3 \ge \alpha \left\|
+(p_1)_3 \ge
+\alpha \left\|
 \begin{pmatrix}
-  (p_k)_1 \\
-  (p_k)_2
+(p_1)_1\\
+(p_1)_2
 \end{pmatrix}
-\right\|_2 .
+\right\|_2 \ge 0.
 \]
-Toto je spor s obmedzením, že loď sa musí nachádzať v predpísanej kužeľovej oblasti.
-Takže ak platí \(m g > F^{\max}\), neexistuje žiadny prípustný manéver pre
-akékoľvek \(K \ge 1\).
 
-Takže pre ľubovoľný prípustný manéver dĺžky \(K\) periód vieme nájsť prípustný
-manéver dĺžky \(K+1\) periód nasledujúcim rozšírením:
+Dostávame teda spor:
 \[
-(p_{K + 2},\, v_{K + 2},\, f_{K + 1}) = (0,\, 0,\, m g e_3).
+\boxed{(p_1)_3 < 0 \quad \land \quad (p_1)_3 \ge 0.}
 \]
-To znamená, že ak počet periód \(K_{\min}\) existuje, tak pre ľubovoľné
-\(K < K_{\min}\) neexistuje žiadny prípustný pristávací
-manéver a pre ľubovoľné \(K \ge K_{\min}\) prípustný manéver existuje vždy.
-Z toho vyplýva, že indikátorová funkcia existencie prípustného manévru je monotónne
-neklesajúca a na hľadanie \(K_{\min}\) vieme použiť metódu podobnú bisekcii.
 
-Na overenie prípustnosti pre pevné $K$ môžeme riešiť konvexnú optimalizačnú úlohu
+Preto pri $mg > F^{\max}$ neexistuje žiadny
+prípustný pristávací manéver.
+\hfill $\blacksquare$
+
+
+\subsection*{Monotónnosť prípustnosti}
+
+Predpokladajme, že existuje prípustný pristávací
+manéver $(p,v,f)$ pre $K$ periód. Ukážeme, že ho
+vieme rozšíriť na prípustný manéver pre $K+1$ periód.
+
+\textbf{Idea:}
+Po pristátí loď zostane v pokoji ešte jednu
+periódu dĺžky $h$.
+
+Pôvodný manéver ponecháme nezmenený a zadefinujeme
+nové premenné
+\[
+p_{K+2}=0,\qquad
+v_{K+2}=0,\qquad
+f_{K+1}=mg e_3.
+\]
+
+Keďže $p_{K+1}=v_{K+1}=0$, dynamické rovnice
+pre novú periódu sú splnené:
 \[
 \begin{aligned}
-\min_{p,v,f} \quad & 0 \\
+v_{K+2}
+&=v_{K+1}+\frac{h}{m}f_{K+1}-hg e_3=0,\\
+p_{K+2}
+&=p_{K+1}+\frac{h}{2}(v_{K+1}+v_{K+2})=0.
 \end{aligned}
 \]
-so všetkými obmedzeniami úlohy \((U)\). Keďže účelová funkcia je konštantná
-a množina prípustných riešení je konvexná, ide o konvexnú optimalizačnú úlohu.
 
-Potom postup hľadania minimálneho času pristátia \(T_{\min}^p = K_{\min} h\) môže byť
-nasledujúci.
-V prvej fáze hľadáme prípustnú hornú hranicu $K_R$ exponenciálnym vyhľadávaním:
+Kužeľové obmedzenie je v novej polohe $p_{K+2}=0$
+triviálne splnené. Zároveň platí
+\[
+\|f_{K+1}\|_2 = mg \le F^{\max},
+\]
+pričom posledná nerovnosť vyplýva
+z predchádzajúceho tvrdenia, keďže pôvodný
+manéver je prípustný.
+
+Rozšírený manéver teda spĺňa všetky obmedzenia
+úlohy $(U)$ pre $K+1$ periód.
+
+\textbf{Záver:}
+Ak existuje prípustný pristávací manéver pre
+$K$ periód, potom existuje aj pre $K+1$ periód,
+a teda aj pre ľubovoľný väčší počet periód.
+
+\subsection*{Hľadanie minimálneho času pristátia}
+
+Z predchádzajúceho výsledku vyplýva, že
+prípustnosť je vzhľadom na počet periód $K$
+monotónne neklesajúca.
+
+Ak existuje minimálny prípustný počet periód
+$K_{\min}$, potom platí
+\[
+\begin{cases}
+K<K_{\min}
+&\Rightarrow \text{úloha je neprípustná},\\
+K\ge K_{\min}
+&\Rightarrow \text{úloha je prípustná}.
+\end{cases}
+\]
+
+Pre pevné $K$ môžeme prípustnosť overiť riešením úlohy
+\[
+\min_{p,v,f}\quad 0
+\]
+so všetkými obmedzeniami úlohy $(U)$.
+
+Keďže v úlohe A sme ukázali, že tieto obmedzenia
+definujú konvexnú množinu, a účelová funkcia
+je konštantná, ide o konvexnú optimalizačnú úlohu,
+konkrétne o SOCP.
+
+Vďaka monotónnosti môžeme $K_{\min}$ nájsť
+kombináciou exponenciálneho a binárneho vyhľadávania.
+
+\textbf{1. fáza: Exponenciálne vyhľadávanie}
+
+Najprv potrebujeme nájsť prípustnú hornú hranicu
+$K_R$.
+
 \begin{enumerate}[label=\arabic*.]
-  \item Zvolíme maximálny skúmaný počet periód $K_{\max} \ge 1$ a položíme $K_R := 1$.
-  \item Overíme prípustnosť úlohy pre dané $K_R$.
-  \item Ak je úloha prípustná, prejdeme na druhú fázu.
-  \item Ak $K_R = K_{\max}$, ukončíme algoritmus. V rozsahu $1 \le K \le K_{\max}$
-  neexistuje prípustné riešenie.
-  \item Inak nastavíme \(K_R := \min(2K_R, K_{\max})\) a vrátime sa na krok 2.
+  \item Zvolíme maximálny skúmaný počet periód
+  $K_{\max}\ge1$ a položíme
+  \[
+  K_L:=0,\qquad K_R:=1.
+  \]
+
+  \item Overíme prípustnosť úlohy pre $K_R$ periód.
+
+  \item Ak je úloha prípustná, prejdeme
+  na druhú fázu.
+
+  \item Ak $K_R=K_{\max}$, ukončíme algoritmus.
+  V rozsahu $1\le K\le K_{\max}$ neexistuje
+  prípustný pristávací manéver.
+
+  \item Inak nastavíme
+  \[
+  K_L:=K_R,\qquad
+  K_R:=\min(2K_R,K_{\max})
+  \]
+  a vrátime sa na krok 2.
 \end{enumerate}
-V druhej fáze hľadáme \(K_{\min}\) binárnym vyhľadávaním:
+
+Po úspešnom ukončení prvej fázy máme prípustnú
+hornú hranicu $K_R$ a dolnú hranicu $K_L$,
+pričom platí $K_L<K_{\min}\le K_R$.
+Hodnota $K_L=0$ predstavuje hranicu pod
+skúmaným rozsahom $K\ge1$.
+
+\textbf{2. fáza: Binárne vyhľadávanie}
+
+V intervale $(K_L,K_R]$ hľadáme najmenší
+prípustný počet periód.
+
 \begin{enumerate}[label=\arabic*.]
-  \item Položíme $K_L := 0$.
-  \item Pokiaľ $K_R - K_L > 1$, vykonáme:
+  \item Pokiaľ $K_R-K_L>1$, vykonáme
+  nasledujúce kroky:
+
   \begin{enumerate}[label=\arabic*.]
-    \item Položíme $K := \lfloor (K_L + K_R)/2 \rfloor$.
-    \item Pomocou solvera overíme prípustnosť optimalizačnej úlohy pre $K$ periód.
-    \item Ak je úloha prípustná, nastavíme $K_R := K$.
-    \item Inak nastavíme $K_L := K$.
+    \item Položíme
+    \[
+    K:=\left\lfloor\frac{K_L+K_R}{2}\right\rfloor.
+    \]
+
+    \item Pomocou solvera overíme prípustnosť
+    úlohy pre $K$ periód.
+
+    \item Ak je úloha prípustná, nastavíme
+    $K_R:=K$.
+
+    \item Inak nastavíme $K_L:=K$.
   \end{enumerate}
-  \item Keď $K_R - K_L = 1$, dostávame $K_{\min} = K_R$ a $T_{\min}^p = K_{\min}h$.
+
+  \item Keď $K_R-K_L=1$, dostávame
+  \[
+  K_{\min}=K_R,\qquad
+  T_{\min}^{p}=K_{\min}h.
+  \]
 \end{enumerate}
-
-
-
 
 \end{document}
